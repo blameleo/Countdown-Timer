@@ -35,7 +35,7 @@ function timer(seconds) {
     }
   }, 1000);
 
-// timeLeft(seconds)
+
 
 }
 
