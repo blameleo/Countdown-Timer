@@ -1,16 +1,31 @@
 const displayTimer = document.querySelector(".display__time-left");
 const displayEndTimer = document.querySelector(".display__end-time");
+const input = document.getElementById('custom')
+
 
 const buttons = document.querySelectorAll("[data-time]");
 let countdown;
-
+//
 for (let button of buttons) {
   button.addEventListener("click", (e) => {
     clearInterval(countdown);
     let seconds = e.target.dataset.time;
     timer(seconds);
+    
   });
 }
+
+input.addEventListener('keypress',(e)=>{
+ 
+if( e.key === "Enter"){
+  e.preventDefault()
+  let val = input[0].value * 60
+  clearInterval(countdown);
+  timer(val);
+  input[0].value = ""
+}
+
+})
 
 function timer(seconds) {
   let minute = seconds < 60 ? 0 : seconds / 60;
@@ -19,16 +34,18 @@ function timer(seconds) {
   countdown = setInterval(() => {
     if (minute>=0) {
       if (seconds == 0) {
-        displayTimer.innerHTML = `<p>${minute}:${
+        displayTimer.textContent = `${minute}:${
           seconds < 10 ? "0" : ""
-        }${seconds}</p>`;
+        }${seconds}`;
         seconds = 59;
         minute--;
+        timeLeft(seconds,minute)
       } else {
-        displayTimer.innerHTML = `<p>${minute}:${
+        displayTimer.textContent = `${minute}:${
           seconds < 10 ? "0" : ""
-        }${seconds}</p>`;
+        }${seconds}` ;
         seconds--;
+        timeLeft(seconds,minute)
       }
     } else {
 
@@ -39,13 +56,23 @@ function timer(seconds) {
 
 }
 
-// function timeLeft (seconds) {
-//   const currentDate = new Date()
-//   let hour = currentDate.getHours()
-//   let minutes = currentDate.getMinutes()
-//   let second = currentDate.getSeconds()
+function timeLeft (seconds,minute) {
+  const currentDate = new Date()
+  let hour = currentDate.getHours()
+  let minutes = currentDate.getMinutes() + minute
+  let second = currentDate.getSeconds() + seconds
+
+  if (minutes>60){
+    hour = hour + 1
+    minutes = minutes - 60
+    displayEndTimer.textContent = ` be back at ${hour} : ${minutes}`
+
+  } else {
+    displayEndTimer.textContent = ` be back at ${hour} : ${minutes}`
+
+  }
 
 
-//   console.log(seconds);
-// }
+  
+}
 
