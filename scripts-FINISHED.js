@@ -5,7 +5,8 @@ const input = document.getElementById('custom')
 
 const buttons = document.querySelectorAll("[data-time]");
 let countdown;
-//
+
+//this code selects the buttons individually and runs the timer fuction on which button is clicked
 for (let button of buttons) {
   button.addEventListener("click", (e) => {
     clearInterval(countdown);
@@ -15,6 +16,7 @@ for (let button of buttons) {
   });
 }
 
+//this input takes in minutes and runs the timer function when i press enter
 input.addEventListener('keypress',(e)=>{
  
 if( e.key === "Enter"){
@@ -27,6 +29,8 @@ if( e.key === "Enter"){
 
 })
 
+
+//this timer tskes a parameter which is how long you want to be away for and passes it to the countdown variables which then counts down
 function timer(seconds) {
   let minute = seconds < 60 ? 0 : seconds / 60;
   seconds = seconds < 60 ? seconds : 0;
@@ -47,15 +51,15 @@ function timer(seconds) {
         seconds--;
         timeLeft(seconds,minute)
       }
-    } else {
-
-    }
+    } 
   }, 1000);
 
 
 
 }
 
+
+//this function takes takes how long you want to be away for and adds it to your current time
 function timeLeft (seconds,minute) {
   const currentDate = new Date()
   let hour = currentDate.getHours()
