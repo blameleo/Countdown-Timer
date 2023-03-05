@@ -79,4 +79,3 @@ function timeLeft (seconds,minute) {
 
   
 }
-
