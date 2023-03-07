@@ -1,0 +1,75 @@
+let displayTimeLeft = document.querySelector(".display__time-left"); // Display time 
+// getting buttons !
+let buttons = document.querySelectorAll(".timer__button");
+let displayEndTime = document.querySelector(".display__end-time");
+// console.log(buttons); // consoling node lists of buttons
+
+const startingTime = 0.34; // getting 20 seconds as starting time
+let time = startingTime * 60; // getting my seconds in millseconds
+
+
+function countDownTime20sec() {
+    const countDownTimer = setInterval(() => {
+        let minutes = Math.floor(time / 60);
+        let seconds = Math.floor(time % 60);
+        // console.log(seconds);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        displayTimeLeft.textContent = `${minutes}: ${seconds}`;
+        displayEndTime.textContent = `Be back at 00:00`
+        time--
+        if (seconds <= 0) {
+            clearInterval(countDownTimer);
+            time = startingTime * 60;
+        }
+    }, 1000);
+};
+// 5 mins timer
+const startingTime2 = 5; // getting 5  mins as starting time 
+let time2 = startingTime2 * 60; // getting my minutes in seconds
+function countDownTime5mins() {
+const countDownTimer2 = setInterval(() => {
+    let minutes = Math.floor(time2 / 60);
+    let seconds = Math.floor(time2 % 60);
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    // console.log(seconds);
+    displayTimeLeft.textContent = `${minutes}: ${seconds}`;
+    time2--
+     if (minutes<= 0 && seconds <=0) {
+         clearInterval(countDownTimer2);
+         time2 = startingTime2 * 60;
+    }
+}, 1000)
+};
+// input value 
+let timeInput = document.getElementById("minutes");
+
+// console.log(timeInput);
+const countDownTimer3 = setInterval(() => {
+    timeInput.addEventListener("keypress", (event) => {
+        // key code for enterKey 
+        if (event.key === "Enter") {
+            event.preventDefault();
+            let minutes = parseFloat(30);
+            // minutes = Math.floor(minutes);
+            let seconds = Math.floor(60 % 60)
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            
+            if (--timeInput <0) {
+                clearInterval(countDownTimer3);
+                timeInput.value = "";
+            }
+            displayTimeLeft.textContent = `${minutes}:${seconds}`;
+        }
+    });
+}, 1000);
+
+const countDate = new Date("May 7, 2021 00:00:00").getTime();
+const now = Date.now();
+const gap = countDate - now;
+// console.log(countDate);
+// console.log(now);
+// console.log(gap);
+

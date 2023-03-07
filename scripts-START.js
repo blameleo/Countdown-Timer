@@ -1,40 +1,50 @@
-let displayTime = document.querySelector(".display__time-left"); // Display time 
-// getting buttons !
-let buttons = document.querySelectorAll(".timer__button");
-console.log(buttons); // consoling node lists of buttons
+const displayTimer = document.querySelector(".display__time-left");
+const displayEndTimer = document.querySelector(".display__end-time");
+const input = document.getElementById("custom");
+const buttons = document.querySelectorAll(".timer__button");
+let startTimer;
 
-const startingTime = 0.34; // getting 20 seconds as starting time
-let time = startingTime * 60; // getting my seconds in millseconds
+for (let button of buttons) {
+       button.addEventListener("click", (e) => {
+       clearInterval(startTimer);
+       let seconds = e.target.dataset.time;
+       countDownTime(seconds);
+  });
+}
 
-function countDownTime20sec() {
-    const countDownTimer = setInterval(() => {
-        let minutes = Math.floor(time / 60);
-        let seconds = Math.floor(time % 60);
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        displayTime.textContent = `${minutes}: ${seconds}`;
-        time--
-        if (seconds <= 0) {
-            clearInterval(countDownTimer);
-            time = startingTime * 60;
-        }
-    }, 1000);
-};
-// 5 mins timer
-const startingTime2 = 5; // getting 5  mins as starting time 
-let time2 = startingTime2 * 60; // getting my minutes in seconds
-function countDownTime5mins() {
-const countDownTimer2 = setInterval(() => {
-    let minutes = Math.floor(time2 / 60);
-    let seconds = Math.floor(time2 % 60);
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    displayTime.textContent = `${minutes}: ${seconds}`;
-    time2--
-     if (minutes<= 0 && seconds <=0) {
-         clearInterval(countDownTimer2);
-         time2 = startingTime2 * 60;
-    }
-}, 1000)
-};
+function countDownTime(time) {
+  const current = Date.now();
+  const then = current + time * 1000;
+  startTimer = setInterval(() => {
+      let minutes = Math.floor(time / 60);
+      let seconds = Math.floor(time % 60);
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+      displayTimer.textContent = `${minutes}: ${seconds}`;
+      displayEndTime(then);
+        if (minutes <= 0 && seconds <= 0) {
+             clearInterval(startTimer);
+        } else {
+            time--;
+      };
+       
+  }, 1000);
+}
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+      let val = input[0].value * 60;
+      console.log(val);
+    clearInterval(startTimer);
+    countDownTime(val);
+    input[0].value = "";
+  }
+});
 
+function displayEndTime(timestamp) {
+    const end = new Date(timestamp);
+    const hour = end.getHours();
+    const adjustedHour = hour > 12 ? hour - 12 +"pm" : hour;
+    const minutes = end.getMinutes();
+    displayEndTimer.textContent = `Be Back At ${adjustedHour}:${minutes < 10 ? "0" : ""}${minutes}`;
+}
